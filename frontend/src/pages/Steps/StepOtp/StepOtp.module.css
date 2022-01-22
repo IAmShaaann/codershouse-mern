@@ -1,0 +1,11 @@
+.cardWrapper {
+  composes: cardWrapper from "../StepEmailPhone/StepEmailPhone.module.css";
+}
+.actionButtonWrap {
+    composes: actionButtonWrap from "../StepEmailPhone/StepEmailPhone.module.css";
+}
+.bottomParagraph {
+    composes: bottomParagraph from "../StepEmailPhone/StepEmailPhone.module.css";
+    width: 100%;
+}
+
