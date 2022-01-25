@@ -8,10 +8,7 @@ import './App.css';
 import Authenticate from './pages/Authenticate/Authenticate';
 import Activate from './pages/Activate/Activate';
 import Rooms from './pages/Rooms/Rooms';
-const isAuth = false;
-const user = {
-  activated: false,
-}
+import { useSelector } from 'react-redux';
 
 function App() {
   return (
@@ -62,6 +59,7 @@ function App() {
 
 // This way we can ensure all the check and balanced we want our component to have before rendering.
 const GuestRoute = ({ children, ...rest }) => {
+  const {isAuth} = useSelector((state) =>state.auth);
   return ({ ...rest }, isAuth ? (
     <Navigate to={{
       pathname: '/rooms',
@@ -74,7 +72,7 @@ const GuestRoute = ({ children, ...rest }) => {
 }
 
 const SemiProtectedRoute = ({ children, ...rest }) => {
-
+  const {user, isAuth} = useSelector((state) =>state.auth);
   return (
     { ...rest },
     !isAuth ? (
@@ -88,6 +86,7 @@ const SemiProtectedRoute = ({ children, ...rest }) => {
 }
 
 const ProtectedRoute = ({ children, ...rest }) => {
+  const {user, isAuth} = useSelector((state) =>state.auth);
   return (
     { ...rest },
     !isAuth ? (

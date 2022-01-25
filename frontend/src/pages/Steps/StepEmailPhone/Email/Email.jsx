@@ -9,7 +9,7 @@ const Email = ({onNext}) => {
     const [email, setEmail] = useState('');
   return (
     <div>
-      <Card title="Enter your email address. " icon="envolope">
+      <Card title="Enter your email address. " icon="email">
       <TextInput
         value={email}
         onChange={(e) => setEmail(e.target.value)}
