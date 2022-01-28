@@ -13,7 +13,7 @@ class ActivateController {
 
         // Image Base64
         const buffer = Buffer.from(
-            avatar.replace(/^data:image\/jpeg;base64,/, ''),
+            avatar.replace(/^data:image\/(jpeg|jpg|png);base64,/, ''),
             'base64'
         );
         const imagePath = `${Date.now()}-${Math.round(
