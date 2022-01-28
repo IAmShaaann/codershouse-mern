@@ -71,13 +71,20 @@ class AuthController {
 
         //cookie
 
-        res.cookie('refreshtoken', refreshToken,  {
+        await tokenService.storeRefreshToken(refreshToken, user._id); //store thr refresh token inside the database. 
+        
+        res.cookie('refreshToken', refreshToken,  {
+            maxAge: 1000 * 60 * 60 * 24 * 30, //valid for 30 days.
+            httpOnly: true,
+        })
+
+        res.cookie('accessToken', accessToken,  {
             maxAge: 1000 * 60 * 60 * 24 * 30, //valid for 30 days.
             httpOnly: true,
         })
 
         const userDto = new UserDto(user); //for tranforming the object. 
-        res.json({ accessToken, user: userDto});
+        res.json({ user: userDto, auth: true });
 
     }
 }

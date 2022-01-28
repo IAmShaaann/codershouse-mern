@@ -1,16 +1,16 @@
-const mongoose = require('mongoose'); //importing mongoose. 
-const Schema = mongoose.Schema; //creating schema(collection blueprint)
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-
-const userSchema = new Schema( //describing the fields in the collection.
+const userSchema = new Schema(
     {
         phone: { type: String, required: true },
-        activated: { type: Boolean, required: false, default: false }
-
+        name: { type: String, required: false },
+        avatar: { type: String, required: false },
+        activated: { type: Boolean, required: false, default: false },
     },
-    { 
-        timestamps: true //creates timestamp for the creation of new users. 
+    {
+        timestamps: true,
     }
-)
+);
 
 module.exports = mongoose.model('User', userSchema, 'users');
