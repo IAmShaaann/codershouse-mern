@@ -5,35 +5,43 @@ import styles from "./StepAvatar.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setAvatar } from "../../../store/activateSlice";
 import { activate } from "../../../http";
-import { setAuth } from '../../../store/authSlice';
+import { setAuth } from "../../../store/authSlice";
+import Loader from "../../../components/shared/Loader/Loader";
 
 const StepAvatar = ({ onNext }) => {
   const dispatch = useDispatch();
   const { name, avatar } = useSelector((state) => state.activate);
   const [image, setImage] = useState("/images/monkey-image.png");
-  const { isAuth } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
   function captureImage(e) {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = function () {
       setImage(reader.result);
-      // setImage((this) => {this.reader.result} )
       dispatch(setAvatar(reader.result));
     };
   }
   async function submit() {
+    if (!name || !avatar) {
+      return;
+    }
+    setLoading(true);
     try {
       const { data } = await activate({ name, avatar });
-      if(data.auth){
+      if (data.auth) {
         dispatch(setAuth(data));
       }
     } catch (err) {
       console.log("page change error", err.message);
+    } finally {
+      setLoading(false);
     }
   }
 
-  return (
+  return loading ? (
+    <Loader message="Activation in progress..."></Loader>
+  ) : (
     <>
       <Card title={`Okay, ${name}`} icon="specsEmoji">
         <p className={styles.subHeading}>How’s this photo?</p>
@@ -48,7 +56,7 @@ const StepAvatar = ({ onNext }) => {
             className={styles.avatarInput}
           />
           <label className={styles.avatarLabel} htmlFor="avatarInput">
-            Choose a different photo
+            Choose a different photo?
           </label>
         </div>
         <div>

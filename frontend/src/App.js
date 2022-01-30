@@ -1,5 +1,5 @@
 import Home from './pages/Home/Home';
-// import Register from './pages/Register/Register';
+
 import { Route, Routes } from "react-router";
 import { BrowserRouter, Navigate } from 'react-router-dom';
 import Navigation from './components/shared/Navigation/Navigation';
@@ -8,9 +8,12 @@ import Authenticate from './pages/Authenticate/Authenticate';
 import Activate from './pages/Activate/Activate';
 import Rooms from './pages/Rooms/Rooms';
 import { useSelector } from 'react-redux';
+import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
+import Loader from './components/shared/Loader/Loader'
 
 function App() {
-  return (
+  const { loading } = useLoadingWithRefresh();
+  return loading ? (<Loader message={"Loading, Please Wait!"}></Loader>) : (
     <div className="App">
       <BrowserRouter>
         <Navigation />
@@ -59,7 +62,7 @@ function App() {
 // This way we can ensure all the check and balanced we want our component to have before rendering.
 const GuestRoute = ({ children, ...rest }) => {
   const { isAuth } = useSelector((state) => state.auth);
-  
+
   return ({ ...rest }, isAuth ? (
     <Navigate to={{
       pathname: '/Rooms',
@@ -73,7 +76,7 @@ const GuestRoute = ({ children, ...rest }) => {
 
 const SemiProtectedRoute = ({ children, ...rest }) => {
   const { user, isAuth } = useSelector((state) => state.auth);
-  
+
   return (
     { ...rest },
     !isAuth ? (
